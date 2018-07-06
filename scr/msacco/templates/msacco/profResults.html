@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>You searched for: <strong>{{ query }}</strong></p>
+
+{% if profile %}
+    <p>Found {{ profile|length }}</p>
+    <ul>
+        {% for prof in profile %}
+        <li>{{ prof.image }} </li>
+        <li>{{ prof.dl }} </li>
+        <li>{{ prof.route }}</li>
+        <li>{{ prof.phone }}</li>
+        <li>{{ prof.employer }} </li>
+        <li>{{ prof.emp_rmks }}</li>
+
+
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No profile matched your search criteria.</p>
+{% endif %}
+
+
+{% endblock %}
