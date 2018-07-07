@@ -24,10 +24,14 @@ class EmployerSignUpView(CreateView):
 #Methods  >> list,create,save,edit,update,remove
 
 """employer.deriverlist"""
-def deriverlist(request):
+def driverlist(request):
    drivers = DriverProfile.objects.all()
    if not drivers:
         found = len(drivers)>0
    else:
         found = False
    return render(request, 'employer/driverlist.html', {'found' : found, 'drivers' : drivers})
+
+
+def drivercreate(request):
+   return render(request, 'employer/drivercreate.html')

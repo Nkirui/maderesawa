@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<a href="#">Create new driver</a>
+<a href="{% url 'drivercreate' %}">Create new driver</a>
 </hr>
 
     {%  if drivers and drivers|length > 0  %}

@@ -12,7 +12,7 @@ def home(request):
         if request.user.is_driver:
             return redirect('search')
         else:
-            return redirect('deriverlist')
+            return redirect('driverlist')
     return render(request, 'msacco/home.html')
 
 
