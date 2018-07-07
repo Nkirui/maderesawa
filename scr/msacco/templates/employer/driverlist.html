@@ -3,35 +3,35 @@
 {% block content %}
 
 <a href="#">Create new driver</a>
-
-<hr/>
+</hr>
 
     {%  if drivers and drivers|length > 0  %}
-        <table style="width: 800px;">
+
+        <table class ="table" id="drivers-table" >
             <thead>
                 <tr>
-                    <th style="width:50%; text-align:left">First name</th>
-                    <th style="width:50%; text-align:left">Last name</th>
-                    <th style="width:50%; text-align: left">Email</th>
-                    <th style="width:50%; text-align:left">Licence</th>
-                    <th style="width:50%; text-align:left">Telephone</th>
-                    <th style="width:50%; text-align:left">Route</th>
-                    <th style="width:50%; text-align:left">Recommentaion</th>
+                    <th>#</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Email</th>
+                    <th>Licence</th>
+                    <th>Telephone</th>
+                    <th>Route</th>
+                    <th>Recommentaion</th>
 
-
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
             {% for driver in drivers  %}
                 <tr>
+                    <td>{{ driver.id }}</td>
                     <td>{{ driver.fname }}</td>
                     <td>{{ driver.sname }}</td>
                     <td>{{ driver.email }}</td>
                     <td>{{ driver.dl }}</td>
+                    <td>{{ driver.phone }}</td>
                     <td>{{ driver.route }}</td>
                     <td>{{ driver.emp_rmks }}</td>
-                    <td>{{ driver.phone }}</td>
 
                     <td>
                         <a href="#/{{ drivers.id }}">Edit</a>
@@ -42,7 +42,7 @@
             </tbody>
         </table>
     {% else %}
-        No records found
+      <td colspan="7" class="text-center bg-warning">No Drivers Found</td>
     {% endif %}
 
 
