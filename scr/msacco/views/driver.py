@@ -30,12 +30,12 @@ def getProfile(request):
      if 'q' in request.GET:
          q = request.GET['q']
          if not q:
-             error.append('Enter a serach term.')
+             error.append('Enter a search term.')
          elif len(q)> 9:
              error.append('Please Enter 8 characters.')
          else:
              profile = DriverProfile.objects.filter(dl__icontains=q)
              return render(request,'msacco/profResults.html',{'profile': profile, 'query': q})
 
-     return render(request,'msacco/search.html', {'error': error})
+     return render(request,'driver/search.html', {'error': error})
 
