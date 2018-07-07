@@ -1,13 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'base.html' %}
 
-</head>
-<body>
+{% block content %}
 
-Hello world
+<p> Welcome to the ultimate search: </p>
 
-</body>
-</html>
+
+ {% if error %}
+    <ul>
+        {% for err in error %}
+        <li>{{ err }}</li>
+        {% endfor %}
+    </ul>
+
+{% endif %}
+
+<form action="/result" method="get">
+<input type="text" name="q" placeholder="Driving Licence" >
+<input type="submit" value="Search">
+</form>
+
+
+{% endblock %}
+
+
+

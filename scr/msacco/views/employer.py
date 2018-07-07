@@ -1,8 +1,8 @@
 from django.contrib.auth import login
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import CreateView
 
-from ..models import User
+from ..models import User, DriverProfile
 from ..forms import EmployerSignUpForm
 
 
@@ -18,8 +18,16 @@ class EmployerSignUpView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('')
+        return redirect('deriverlist')
 
 
 #Methods  >> list,create,save,edit,update,remove
 
+"""employer.deriverlist"""
+def deriverlist(request):
+   drivers = DriverProfile.objects.all()
+   if not drivers:
+        found = len(drivers)>0
+   else:
+        found = False
+   return render(request, 'employer/driverlist.html', {'found' : found, 'drivers' : drivers})

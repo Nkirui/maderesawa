@@ -20,12 +20,22 @@ class DriverSignUpView(CreateView):
         return redirect('search')
 
 
-# crude operation methods
-def list(request):
-   drivers = DriverProfile.objects.all()
-   if not drivers:
-        found = len(drivers)>0
-   else:
-        found = False
-   return render(request, 'driver/list.html', {'found' : found, 'drivers' : drivers})
+def search(request):
+
+    return render(request, 'driver/search.html',)
+
+
+def getProfile(request):
+     error = []
+     if 'q' in request.GET:
+         q = request.GET['q']
+         if not q:
+             error.append('Enter a serach term.')
+         elif len(q)> 9:
+             error.append('Please Enter 8 characters.')
+         else:
+             profile = DriverProfile.objects.filter(dl__icontains=q)
+             return render(request,'msacco/profResults.html',{'profile': profile, 'query': q})
+
+     return render(request,'msacco/search.html', {'error': error})
 
