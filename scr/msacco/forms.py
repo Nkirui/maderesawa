@@ -1,5 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from django.forms import ModelForm
+
+from .models import User, DriverProfile
 
 
 class DriverSignUpForm(UserCreationForm):
@@ -24,3 +26,8 @@ class EmployerSignUpForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class DriverForm(ModelForm):
+    class Meta:
+        model = DriverProfile
+        fields = '__all__'

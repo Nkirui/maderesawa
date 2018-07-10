@@ -23,6 +23,6 @@ class DriverProfileAdmin(admin.ModelAdmin):
     'route'
     )
 
-    list_display = ['fname','sname','image', 'dl','phone','route','employer','emp_rmks']
+    list_display = ['fname','sname','image', 'dl','phone','route','emp_rmks']
 
 admin.site.register(DriverProfile, DriverProfileAdmin)

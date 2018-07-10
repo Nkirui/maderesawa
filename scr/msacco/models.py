@@ -42,12 +42,12 @@ class Employer(models.Model):
 
 # model to create driver profile
 class DriverProfile(models.Model):
-    fname = models.CharField(max_length=250,default='')
-    sname = models.CharField(max_length=250,default='')
-    email = models.EmailField(unique=True,default='')
+    fname = models.CharField(verbose_name=("First Name"),max_length=250,default='')
+    sname = models.CharField(verbose_name=("Second Name"),max_length=250,default='')
+    email = models.EmailField(verbose_name=("Email Address"),unique=True,default='')
     image = models.FileField(verbose_name=("Profile Picture"),upload_to='media', max_length=255, null=True, blank=True,default='')
     dl = models.CharField(verbose_name=("Driving Licence"),max_length=100, default='', blank=False)
     phone = models.CharField(max_length=20, blank=True, default='')
     route = models.CharField(max_length=100, default='', blank=False)
-    employer = models.ForeignKey(EmployerProfile,on_delete=models.CASCADE,default=True)
+    #employer = models.ForeignKey(EmployerProfile,on_delete=models.CASCADE,default=True)
     emp_rmks = models.TextField(verbose_name=("Employer Remarks"),max_length=100,blank=False,default='')
