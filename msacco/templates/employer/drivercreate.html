@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1> Add Driver Information</h1>
+<form method="post">
+  {% csrf_token %}
+
+
+  {{ form|crispy }}
+
+
+  <button class="btn btn-primary" style="width:100%">Save</button>
+
+</form>
+{% endblock %}

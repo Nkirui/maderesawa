@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p xmlns="http://www.w3.org/1999/html">
+
+<div class="float-right">
+
+<div class="btn-group" role="group" aria-label="...">
+
+    <p>
+
+    <a href="{% url 'createstaff' %}" button type="button"><span class="glyphicon glyphicon-user"></span>Add Staff </a></button>
+
+</p>
+
+
+</div>
+</div>
+ </p>
+
+<p>
+    <a href="{% url 'saccoprofdisp' %}" class="btn btn-primary " ><span class="glyphicon glyphicon-plus" aria-hidden="true">&nbsp; Profile </span></a>
+    <a href="{% url 'drivercreate' %}" class="btn btn-primary " >New driver</a>
+
+</p>
+
+
+
+<hr>
+
+{%  if drivers and drivers|length > 0  %}
+
+<table class ="table table-condensed">
+    <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First name</th>
+          <th scope="col">Last name</th>
+          <th scope="col">Licence</th>
+          <th scope="col">Route</th>
+          <th>Edited</th>
+          <th></th>
+
+        </tr>
+
+    </thead>
+    <tbody>
+
+    {% for driver in drivers  %}
+
+        <tr>
+            <td>{{ driver.id }}</td>
+            <td>{{ driver.f_name }}</td>
+            <td>{{ driver.l_name }}</td>
+            <td>{{ driver.dl }}</td>
+            <td>{{ driver.route }}</td>
+            <td>{{ instance.user }}</td>
+
+            <td>
+    <a href="{% url 'driverview' driver.id %}" class="btn btn-outline-primary">Details</a>
+    <a href="{% url 'driveredit' driver.id %}" class="btn btn-outline-secondary">Edit</a>
+    <a href="{% url 'driverremove' driver.id %}" class="btn btn-outline-danger">Remove</a>
+
+            </td>
+
+
+        </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<h2>No Drivers Found</h2>
+
+
+{% endif %}
+
+
+{% endblock %}

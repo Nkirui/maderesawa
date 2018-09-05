@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Driver Details</h1>
+
+
+                  <h2> First Name : {{ object.f_name }}</h2>
+                  <h2> Second Name : {{ object.l_name }}</h2>
+                  <h2> Driving Licence : {{ object.dl }}</h2>
+                  <h2> Tel : {{ object.phone }}</h2>
+                  <h2> Route : {{ object.route }}</h2>
+                  <h2> Recommentation  : {{ object.emp_rmks }}</h2>
+                  <h2> Employer  : {{ object.employer }}</h2>
+
+
+
+{% endblock %}
