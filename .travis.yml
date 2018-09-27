@@ -2,10 +2,13 @@ language: python
 python:
   - "2.7"
   - "3.4"
+docker:
+  - docker
 
 install:
-  - pip install -r requirements.txt
+  - docker build -t madere .
+  - docker run -d 127.0.0.1:8000:8000 --name madere
 
 # command to run tests
 script:
-  - make test
+  - docker ps | grep -q madere
