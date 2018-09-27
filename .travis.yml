@@ -7,7 +7,9 @@ python:
 # install dependencies
 virtualenv:
     system_site_packages: true
-
+env:
+  - DJANGO_VERSION=2.0.7
+  - DJANGO_SETTINGS_MODULE='scr.settings'
 
 install:
   - pip install -r requirements.txt
