@@ -1,14 +1,11 @@
 language: python
 python:
-  - "2.7"
-  - "3.4"
-docker:
-  - docker
+   - "3.5"
+
+# install dependencies
 
 install:
-  - docker build -t madere .
-  - docker run -d 127.0.0.1:8000:8000 --name madere
+  - pip install -r requirements.txt
 
-# command to run tests
 script:
-  - docker ps | grep -q madere
+python manage.py test
