@@ -1,12 +1,9 @@
 language: python
 python:
    - "3.5"
-   - "3.3"
-   - "2.7"
 
 env:
   - DJANGO_VERSION=2.0.7
-  - DJANGO_SETTINGS_MODULE='scr.settings'
 
 install:
   - pip install -r requirements.txt
