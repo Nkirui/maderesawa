@@ -9,6 +9,7 @@ env:
   - DJANGO_SETTINGS_MODULE='scr.settings'
 
 install:
+  - find . -regex '.*requirements.txt$'
   - pip install -r requirements.txt
 
 script: python manage.py test
