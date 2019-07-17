@@ -6,10 +6,11 @@ node {
      commit_id = readFile('.git/commit-id').trim()
    }
    stage('test') {
-     nodejs(pythonversion: 'python3') {
+     python(pythonversion: 'python3') {
        sh 'pip install -r requirements.txt'
        sh 'python manage.py test'
      }
+
    }
    stage('docker build/push') {
      docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
