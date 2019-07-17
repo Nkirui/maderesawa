@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+ <div style="font-size: 14px; margin-top: 5px;display:block">
+       <h2> <strong>{{ object.f_name }} {{  object.l_name  }} Details!</strong></h2>
+
+
+      <strong> Driving Licence :</strong> {{ object.dl }} | <strong> Route : </strong>{{ object.route  }} |
+      <strong>Recommentation :</strong> {{  object.emp_rmks }} |<strong> Employer : </strong>{{ object.employer}} | <strong>Status :</strong> {{ object.driver_status  }}
+
+
+    </div>
+
+{% endblock %}

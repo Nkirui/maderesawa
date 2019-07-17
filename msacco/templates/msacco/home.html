@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Welcome to your platform of Choice that enables you to consolidate your driver information! <span class="icon-emo-happy"></span></h2>
+  <p class="lead">
+    If you already have an account, go ahead and <a href="{% url 'login' %}">log in</a>. If you are new to maderesawa, get started
+    by creating an <a href="{% url 'signup' %}">Account</a>.
+  </p>
+  <hr>
+  <h3>What's this about?</h3>
+  <p>
+    In this application, users can sign up as an employer and drivers can login using their driving licence and telephone number as password. Employers are able to add drivers profile with details about location,driving behaviour etc and drivers can search on the profiles
+    by using their driving licence
+  </p>
+
+{% endblock %}

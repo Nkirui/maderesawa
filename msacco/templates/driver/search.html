@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p> Welcome to the ultimate search: </p>
+
+
+ {% if error %}
+    <ul>
+        {% for err in error %}
+         {{ err }}
+        {% endfor %}
+    </ul>
+
+{% endif %}
+
+<form action="/result" method="get">
+<input type="text" name="q" placeholder="Driving Licence" >
+<input type="submit" value="Search">
+</form>
+
+
+{% endblock %}
+
+
+
