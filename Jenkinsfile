@@ -6,12 +6,17 @@ node {
      commit_id = readFile('.git/commit-id').trim()
    }
     stage('test') {
-        
+      
+      withPythonEnv('/usr/bin/python3.5') {
+    // Uses the default system installation of Python
+          // Equivalent to withPythonEnv('/usr/bin/python') 
        echo  " start installing dependencies"
        sh 'virtualenv -p python3 env'
        sh 'source env/bin/activate'
        sh 'pip install -r requirements.txt'
        sh 'python manage.py test'
+      }
+      
     
    }
    stage('docker build/push') {
