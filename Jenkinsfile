@@ -5,15 +5,14 @@ node {
      sh "git rev-parse --short HEAD > .git/commit-id"                        
      commit_id = readFile('.git/commit-id').trim()
    }
-     stage('test') {
-          steps{
+    stage('test') {
+        
        echo  " start installing dependencies"
        sh 'virtualenv -p python3 env'
        sh 'source env/bin/activate'
        sh 'pip install -r requirements.txt'
        sh 'python manage.py runserver'
-     }
-
+    
    }
    stage('docker build/push') {
      docker.withRegistry('https://index.docker.io/v1/', 'dockerhub')
