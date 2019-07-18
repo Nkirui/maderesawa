@@ -22,3 +22,4 @@ node {
        def app = docker.build("nkirui2030/matatusacco:${commit_id}", '.').push()
      }
    }
+}
