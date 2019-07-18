@@ -11,7 +11,7 @@ node {
        sh 'virtualenv -p python3 env'
        sh 'source env/bin/activate'
        sh 'pip install -r requirements.txt'
-       sh 'script.sh test'
+       sh 'python manage.py test'
     
    }
    stage('docker build/push') {
