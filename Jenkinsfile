@@ -21,7 +21,7 @@ node {
    }
    stage('test2') {
       
-      withPythonEnv('python') {
+      withPythonEnv('/usr/bin/python3.5') {
     // Uses the default system installation of Python
           // Equivalent to withPythonEnv('/usr/bin/python') 
        echo  " start installing dependencies"
