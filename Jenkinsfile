@@ -6,9 +6,8 @@ node {
      commit_id = readFile('.git/commit-id').trim()
    }
      stage('test') {
-     def myTestContainer = docker.image('python:3.5')
-     myTestContainer.pull()
-     myTestContainer.inside {
+          steps{
+       echo  " start installing dependencies"
        sh 'virtualenv -p python3 env'
        sh 'source env/bin/activate'
        sh 'pip install -r requirements.txt'
