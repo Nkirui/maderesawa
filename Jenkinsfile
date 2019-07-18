@@ -9,11 +9,11 @@ node {
             echo "Hello"
           }
 
-
    }
    stage('docker build/push') {
-     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub')
+      {
        def app = docker.build("nkirui2030/matatusacco:${commit_id}", '.').push()
      }
    }
-}
+
