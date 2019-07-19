@@ -28,9 +28,7 @@ node {
     }
    stage('ochestration') 
        {
-        
-        steps{
-
+       
             sh """
               echo "deploy stage";
               curl -o /tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-220.0.0-linux-x86_64.tar.gz;
@@ -46,7 +44,7 @@ node {
               gcloud config list;
               mvn -X clean package appengine:deploy -Dmaven.test.failure.ignore=true;
             """
-          }	
+          	
           post{
             always{
               println "Result : ${currentBuild.result}";
