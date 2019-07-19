@@ -27,6 +27,7 @@ node {
     GOOGLE_SERVICE_ACCOUNT_KEY = credentials('./madereva-04c3e76546d5.json');
     }
    stage('ochestration') 
+       {
         
         steps{
 
@@ -52,7 +53,7 @@ node {
               println "Deploy to GCP ..";
             } 
           }
-        
+       }
       
    stage('docker build/push') {
      docker.withRegistry('https://index.docker.io/v1/', 'dockerhub')
