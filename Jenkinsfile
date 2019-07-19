@@ -22,33 +22,24 @@ node {
       
     
    }
-  environment {
-    GOOGLE_PROJECT_ID = 'madereva';
-    GOOGLE_SERVICE_ACCOUNT_KEY = credentials('./madereva-04c3e76546d5.json');
-    }
    stage('ochestration') 
        {
        
             sh """
               echo "deploy stage";
-              curl -o /tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-220.0.0-linux-x86_64.tar.gz;
-              tar -xvf /tmp/google-cloud-sdk.tar.gz -C /tmp/;
-              /tmp/google-cloud-sdk/install.sh -q;
-              source /tmp/google-cloud-sdk/path.bash.inc;
-              gcloud config set project ${GOOGLE_PROJECT_ID};
-              gcloud components install app-engine-java;
-              gcloud components install app-engine-python;
-              gcloud auth activate-service-account --key-file ${GOOGLE_SERVICE_ACCOUNT_KEY};
-              gcloud container clusters get-credentials maderesawa-clus
-              echo "After authentication gcloud";
-              gcloud config list;
-              mvn -X clean package appengine:deploy -Dmaven.test.failure.ignore=true;
+              curl https://sdk.cloud.google.com | bash > /dev/null;
+              source $HOME/google-cloud-sdk/path.bash.inc
+              gcloud components update kubectl
+              gcloud auth activate-service-account --key-file service-account.json
+              gcloud config set project madereva
+              gcloud config set compute/zone us-central1-a	
+              gcloud container clusters get-credentials maderesawa-clus	         
             """
           	
           post{
             always{
               println "Result : ${currentBuild.result}";
-              println "Deploy to GCP ..";
+              println "Deploy to GCP ...";
             } 
           }
        }
