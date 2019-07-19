@@ -23,8 +23,7 @@ node {
     
    }
    stage('ochestration') 
-       {
-       
+       {       
             sh """
               echo "deploy stage";
               curl https://sdk.cloud.google.com | bash > /dev/null;
@@ -34,14 +33,8 @@ node {
               gcloud config set project madereva
               gcloud config set compute/zone us-central1-a	
               gcloud container clusters get-credentials maderesawa-clus	         
-            """
-          	
-          post{
-            always{
-              println "Result : ${currentBuild.result}";
-              println "Deploy to GCP ...";
-            } 
-          }
+            """         	
+      
        }
       
    stage('docker build/push') {
