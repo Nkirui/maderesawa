@@ -9,18 +9,7 @@ node {
    } 
    try{
    
-    stage('test1') {
-      
-      withPythonEnv('/usr/bin/python3.5') {
-    // Uses the default system installation of Python
-          // Equivalent to withPythonEnv('/usr/bin/python') 
-       echo  " start installing dependencies"
-      // sh 'virtualenv -p python3 env'
-       //sh 'source env/bin/activate'
-       sh 'pip install -r requirements.txt'
-       sh 'python manage.py test'
-      }     
-     }
+   
    stage('ochestration') 
        {       
             sh """
