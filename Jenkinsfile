@@ -21,20 +21,7 @@ node {
        sh 'python manage.py test'
       }     
      }
-   stage('ochestration') 
-       {       
-            sh """
-              echo "deploy stage";
-              curl https://sdk.cloud.google.com | bash > /dev/null;
-              source $HOME/google-cloud-sdk/path.bash.inc
-              gcloud components update kubectl
-              gcloud auth activate-service-account --key-file service-account.json
-              gcloud config set project mathree
-              gcloud config set compute/zone us-central1-a	
-              gcloud container clusters get-credentials mathree-cluster
-       
-            """              
-       }
+  
       
    stage('docker build/push') {
      docker.withRegistry('https://index.docker.io/v1/', 'dockerhub')
