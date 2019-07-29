@@ -6,7 +6,6 @@ node {
      commit_id = readFile('.git/commit-id').trim()
    } 
    try{
-
    
     stage('test1') {
       
@@ -18,10 +17,8 @@ node {
        //sh 'source env/bin/activate'
        sh 'pip install -r requirements.txt'
        sh 'python manage.py test'
-      }
-      
-    
-   }
+      }     
+     }
    stage('ochestration') 
        {       
             sh """
@@ -33,8 +30,7 @@ node {
               gcloud config set project madereva
               gcloud config set compute/zone us-central1-a	
               gcloud container clusters get-credentials maderesawa-clus	         
-            """         	
-      
+            """              
        }
       
    stage('docker build/push') {
@@ -43,7 +39,12 @@ node {
        def app = docker.build("nkirui2030/matatusacco:${commit_id}", '.').push()
      }
    }
+   steps
+   {
+      sh "./deploy.sh"
+  
    }
+  }
    catch(e) {    // mark build as failed
     currentBuild.result = "FAILURE";
 
@@ -53,5 +54,4 @@ node {
     // throw the error
     throw e;
     }
-
 }
