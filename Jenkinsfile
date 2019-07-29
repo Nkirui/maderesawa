@@ -27,9 +27,10 @@ node {
               source $HOME/google-cloud-sdk/path.bash.inc
               gcloud components update kubectl
               gcloud auth activate-service-account --key-file service-account.json
-              gcloud config set project madereva
+              gcloud config set project mathree
               gcloud config set compute/zone us-central1-a	
-              gcloud container clusters get-credentials maderesawa-clus	         
+              gcloud container clusters get-credentials mathree-cluster
+       
             """              
        }
       
