@@ -1,3 +1,5 @@
+#!/bin/sh
+
 node {
    def commit_id
    stage('Preparation') {
