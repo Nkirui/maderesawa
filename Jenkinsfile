@@ -48,7 +48,8 @@ node {
     {
       
 				echo "final stage";
-        sh './deploy.sh'
+        sh 'kubectl apply -f k8s'
+'
         
     
       
