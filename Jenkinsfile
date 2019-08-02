@@ -32,8 +32,6 @@ node {
 
     stage('deploy to k8s')
     {
-      steps{
-        
         sh '''
           #!/bin/bash 
 			    echo "deploy stage";
@@ -44,17 +42,15 @@ node {
           gcloud config set compute/zone us-central1-a
           gcloud container clusters get-credentials mathree-cluster	
         '''
-        
-      }
       
     }
   stage('publish')
     {
-      steps{
+      
 				echo "final stage";
         sh './deploy.sh'
         
-      }
+    
       
     }
  
