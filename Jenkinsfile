@@ -33,9 +33,10 @@ node {
     stage('deploy to k8s')
     {
       steps{
-        #!/bin/bash 
-				echo "deploy stage";
+        
         sh '''
+          #!/bin/bash 
+			    echo "deploy stage";
           source $HOME/google-cloud-sdk/path.bash.inc
           gcloud components update kubectl
           gcloud auth activate-service-account --key-file service-account.json
@@ -50,7 +51,6 @@ node {
   stage('publish')
     {
       steps{
-        #!/bin/bash 
 				echo "final stage";
         sh './deploy.sh'
         
