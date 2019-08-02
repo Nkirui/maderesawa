@@ -29,8 +29,38 @@ node {
        def app = docker.build("nkirui2030/matatusacco:${commit_id}", '.').push()
      }
    }
+
+    stage('deploy to k8s')
+    {
+      steps{
+        #!/bin/bash 
+				echo "deploy stage";
+        sh '''
+          source $HOME/google-cloud-sdk/path.bash.inc
+          gcloud components update kubectl
+          gcloud auth activate-service-account --key-file service-account.json
+          gcloud config set project mathree-248210
+          gcloud config set compute/zone us-central1-a
+          gcloud container clusters get-credentials mathree-cluster	
+        '''
+        
+      }
+      
+    }
+  stage('publish')
+    {
+      steps{
+        #!/bin/bash 
+				echo "final stage";
+        sh './deploy.sh'
+        
+      }
+      
+    }
  
   }
+
+
    catch(e) {    // mark build as failed
     currentBuild.result = "FAILURE";
 
