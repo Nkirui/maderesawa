@@ -48,9 +48,10 @@ node {
     }
   stage('publish')
     {
-      
-				echo "final stage";
-        sh 'kubectl apply -f ./k8s'    
+        sh """
+				#!/bin/bash
+        kubectl apply -f k8s
+        """
     
       
     }
