@@ -32,7 +32,7 @@ node {
 
     stage('deploy to k8s')
     {
-        sh """"
+        sh """
           #!/bin/bash 
 			    echo "deploy stage";
           curl https://sdk.cloud.google.com | bash > /dev/null;
@@ -42,7 +42,8 @@ node {
           gcloud config set project mathree-248210
           gcloud config set compute/zone us-central1-a
           gcloud container clusters get-credentials mathree-cluster	
-        """"
+        
+           """
       
     }
   stage('publish')
