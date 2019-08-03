@@ -48,9 +48,7 @@ node {
     {
       
 				echo "final stage";
-        sh 'kubectl apply -f k8s'
-'
-        
+        sh 'kubectl apply -f ./k8s'    
     
       
     }
