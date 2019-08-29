@@ -21,8 +21,7 @@ node {
        sh 'python manage.py test'
       }     
      }
-  
-      
+        
    stage('docker build/push') {
      docker.withRegistry('https://index.docker.io/v1/', 'dockerhub')
       {
@@ -39,9 +38,9 @@ node {
           source $HOME/google-cloud-sdk/path.bash.inc
           gcloud components update kubectl
           gcloud auth activate-service-account --key-file service-account.json
-          gcloud config set project mathree-248210
-          gcloud config set compute/zone us-central1-a
-          gcloud container clusters get-credentials mathree-cluster	
+          gcloud config set project cicid-251308
+          gcloud config set compute/zone us-east1-d
+          gcloud container clusters get-credentials jenkins-cd	
         
            """
       
@@ -51,21 +50,18 @@ node {
         sh """
 				#!/bin/bash
         kubectl apply -f k8s
-        """
-    
+        """   
       
     }
  
   }
+  //  catch(e) {    // mark build as failed
+  //   currentBuild.result = "FAILURE";
 
+  //   // send slack notification
+  //   slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 
-   catch(e) {    // mark build as failed
-    currentBuild.result = "FAILURE";
-
-    // send slack notification
-    slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-
-    // throw the error
-    throw e;
-    }
+  //   // throw the error
+  //   throw e;
+  //   }
 }

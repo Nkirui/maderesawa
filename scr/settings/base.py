@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = '_w54yx&*4w%%1$dajst#en2y=y*0c0efuextacegkhy&$o@+wx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -112,7 +112,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_URL = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = 'static' # os.path.join(BASE_DIR, 'static')
 
 
 
@@ -138,9 +138,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # setting for email setups
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'nathankirui5@gmail.com'
-EMAIL_HOST_PASSWORD = 'N@kirui2015'
-EMAIL_PORT = 587
 
