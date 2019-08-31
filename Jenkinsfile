@@ -29,31 +29,45 @@ node {
      }
    }
 
-    stage('deploy to k8s')
-    {
-        sh """
-          #!/bin/bash 
-			    echo "deploy stage";
-          curl https://sdk.cloud.google.com | bash > /dev/null;
-          source $HOME/google-cloud-sdk/path.bash.inc
-          gcloud components update kubectl
-          gcloud auth activate-service-account --key-file service-account.json
-          gcloud config set project cicid-251308
-          gcloud config set compute/zone us-east1-d	
-          gcloud container clusters get-credentials  jenkins-cd	
+   stage('DeployToProduction') {
+            when {
+                branch 'master'
+            }
+            steps {
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig',
+                    configs: 'deploymanifest.yml',
+                    enableConfigSubstitution: true
+                )
+            }
+        }
+
+    // stage('deploy to k8s')
+    // {
+    //     sh """
+    //       #!/bin/bash 
+		// 	    echo "deploy stage";
+    //       curl https://sdk.cloud.google.com | bash > /dev/null;
+    //       source $HOME/google-cloud-sdk/path.bash.inc
+    //       gcloud components update kubectl
+    //       gcloud auth activate-service-account --key-file service-account.json
+    //       gcloud config set project cicid-251308
+    //       gcloud config set compute/zone us-east1-d	
+    //       gcloud container clusters get-credentials  jenkins-cd	
         
-           """
+    //        """
       
-    }
-  stage('publish')
-    {
-        sh """
-				#!/bin/bash
-        kubectl apply -f k8s
-        """
+    // }
+  // stage('publish')
+  //   {
+  //       sh """
+	// 			#!/bin/bash
+  //       kubectl apply -f k8s
+  //       """
     
       
-    }
+  //   }
  
   }
 
