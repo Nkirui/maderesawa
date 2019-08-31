@@ -1,12 +1,33 @@
 language: python
 python:
-   - "3.5"
+  - "3.5"
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t  nkirui2030/softdjangoweb .
+script: skip
 
-env:
-  - DJANGO_VERSION=2.0.7
+after_success:
+# am using a single image
+# login to docker cli
+  - echo "&DOCKER_PASSWORD" | docker login  -u "$DOCKER_ID" --password -stdin
+  - docker push nkirui2030/softdjangoweb 
 
-install:
-  - pip install -r requirements.txt
+deploy:
+  skip_cleanup: true
+  provider: elasticbeanstalk
+  region: "us-west-1"
+  app: "madere"
+  env: "Madere-env"
+  bucket_name: "elasticbeanstalk-us-west-1-736702276294"
+  bucket_path: "softsearchdjango"
+  skip_cleanup: true
 
-script: python manage.py test
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: "$AWS_SECRET_KEY"
+  
 
