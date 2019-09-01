@@ -3,7 +3,10 @@
 pipeline {
 
    agent any
+
+   stages {
    def commit_id
+
    stage('Preparation') {
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"                      
@@ -42,6 +45,8 @@ pipeline {
                 )
             }
         }
+
+   }
 
     // stage('deploy to k8s')
     // {
