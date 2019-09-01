@@ -1,81 +1,76 @@
-#!/bin/sh
+/* import shared library */
+@Library('jenkins-shared-library')_
 
-node {
-   def commit_id
-   stage('Preparation') {
-     checkout scm
-     sh "git rev-parse --short HEAD > .git/commit-id"                      
-     commit_id = readFile('.git/commit-id').trim()
-   } 
-      
-    stage('test1') {
-      
-      withPythonEnv('/usr/bin/python3.5') {
-    // Uses the default system installation of Python
-          // Equivalent to withPythonEnv('/usr/bin/python') 
-       echo  " start installing dependencies"
-      // sh 'virtualenv -p python3 env'
-       //sh 'source env/bin/activate'
-       sh 'pip install -r requirements.txt'
-       sh 'python manage.py test'
-      }     
-     }
-  
-      
-   stage('docker build/push') {
-     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub')
-      {
-       def app = docker.build("nkirui2030/matatusacco:${commit_id}", '.').push()
-     }
-   }
-
-   stage('DeployToProduction') {        
-            
-          milestone(1)
-          kubernetesDeploy(
-              kubeconfigId: 'kubeconfig',
-              configs: 'deploymanifest.yml',
-              enableConfigSubstitution: true
-          )
-            
+pipeline {
+    agent any
+    environment {
+        //be sure to replace "sampriyadarshi" with your own Docker Hub username
+        DOCKER_IMAGE_NAME = "nkirui2030/matatusacco"
+        CANARY_REPLICAS = 0
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Running build automation'
+                sh './gradlew build --no-daemon'
+                archiveArtifacts artifacts: 'dist/trainSchedule.zip'
+            }
         }
-
-    // stage('deploy to k8s')
-    // {
-    //     sh """
-    //       #!/bin/bash 
-		// 	    echo "deploy stage";
-    //       curl https://sdk.cloud.google.com | bash > /dev/null;
-    //       source $HOME/google-cloud-sdk/path.bash.inc
-    //       gcloud components update kubectl
-    //       gcloud auth activate-service-account --key-file service-account.json
-    //       gcloud config set project cicid-251308
-    //       gcloud config set compute/zone us-east1-d	
-    //       gcloud container clusters get-credentials  jenkins-cd	
+        stage('Build Docker Image') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    app = docker.build(DOCKER_IMAGE_NAME)
+                    app.inside {
+                        sh 'echo Hello, World!'
+                    }
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
+                    }
+                }
+            }
+        }
         
-    //        """
-      
-    // }
-  // stage('publish')
-  //   {
-  //       sh """
-	// 			#!/bin/bash
-  //       kubectl apply -f k8s
-  //       """
-    
-      
-  //   }
- 
-  }
-
-
-  //  catch(e) {    // mark build as failed
-  //   currentBuild.result = "FAILURE";
-
-  //   // send slack notification
-  //   slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-
-  //   // throw the error
-  //   throw e;
-  //   }
-// }
+        stage('DeployToProduction') {
+            when {
+                branch 'master'
+            }
+            steps {
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig',
+                    configs: 'deploymanifest.yml',
+                    enableConfigSubstitution: true
+                )
+            }
+        }
+    }
+    /*post {
+	always {
+            kubernetesDeploy (
+                kubeconfigId: 'kubeconfig',
+                configs: 'deploymanifest-canary.yml',
+                enableConfigSubstitution: true
+            )
+        }
+	*/    
+        //cleanup {
+	    
+	    /* Use slackNotifier.groovy from shared library and provide current build result as parameter */   
+        //    slackNotifier(currentBuild.currentResult)
+            // cleanWs()
+        //}
+   // }
+}
