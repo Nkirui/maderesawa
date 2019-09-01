@@ -38,13 +38,10 @@ pipeline {
       
    stage('docker build/push') 
 
-      steps{
-
-            {
-              docker.withRegistry('https://index.docker.io/v1/', 'dockerhub')
-            {
+      steps{            
+              docker.withRegistry('https://index.docker.io/v1/', 'dockerhub')            
               def app = docker.build("nkirui2030/matatusacco:${commit_id}", '.').push()
-          }
+          
         }
 
       }
