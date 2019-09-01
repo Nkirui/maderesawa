@@ -11,10 +11,14 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Running build automation'
-                sh './gradlew build --no-daemon'
-                archiveArtifacts artifacts: 'dist/jkuatdjango.zip'
+                    withPythonEnv('/usr/bin/python3.5') {
+                                echo  " start installing dependencies"
+                                sh 'pip install -r requirements.txt'
+                                sh 'python manage.py test'
+                
+            
             }
+          }
         }
         stage('Build Docker Image') {
             when {
