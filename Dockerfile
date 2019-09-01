@@ -11,17 +11,17 @@ RUN mkdir /mdata
 WORKDIR /mdata
 COPY . /mdata
 
-# install psycopg2
-RUN apk update \
-    && apk add --virtual build-deps gcc python3-dev musl-dev \
-    && apk add postgresql-dev \
-    && pip install psycopg2 \
-    && apk del build-deps
+# # install psycopg2
+# RUN apk update \
+#     && apk add --virtual build-deps gcc python3-dev musl-dev \
+#     && apk add postgresql-dev \
+#     && pip install psycopg2 \
+#     && apk del build-deps
 
-# install other dependencies to allow installation of Pillow
-RUN apk --update add libxml2-dev libxslt-dev libffi-dev gcc musl-dev libgcc openssl-dev curl
-RUN apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev
-RUN pip install Pillow
+# # install other dependencies to allow installation of Pillow
+# RUN apk --update add libxml2-dev libxslt-dev libffi-dev gcc musl-dev libgcc openssl-dev curl
+# RUN apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev
+# RUN pip install Pillow
 
 # install main requirements
 RUN pip install -r requirements.txt
