@@ -1,6 +1,8 @@
 #!/bin/sh
 
-node {
+pipeline {
+
+   agent any
    def commit_id
    stage('Preparation') {
      checkout scm
@@ -8,7 +10,7 @@ node {
      commit_id = readFile('.git/commit-id').trim()
    }      
       
-    stage('test1') {
+    stage('testing') {
       
       withPythonEnv('/usr/bin/python3.5') {
     // Uses the default system installation of Python
@@ -30,9 +32,9 @@ node {
    }
 
    stage('DeployToProduction') {
-        
+       
             steps {
-                milestone(1)
+                milestone(1)              
                 kubernetesDeploy(
                     kubeconfigId: 'kubeconfig',
                     configs: 'deploymanifest.yml',
