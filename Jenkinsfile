@@ -1,65 +1,44 @@
 #!/bin/sh
 
-pipeline {
-
-   agent any
-
-   stages {
+node {
    def commit_id
-
    stage('Preparation') {
-     steps{
-            checkout scm
-            sh "git rev-parse --short HEAD > .git/commit-id"                      
-            commit_id = readFile('.git/commit-id').trim()
-
-     }
-     
-   }      
+     checkout scm
+     sh "git rev-parse --short HEAD > .git/commit-id"                      
+     commit_id = readFile('.git/commit-id').trim()
+   } 
       
-    stage('testing') {
-      steps{
-
-                withPythonEnv('/usr/bin/python3.5') {
-              // Uses the default system installation of Python
-                    // Equivalent to withPythonEnv('/usr/bin/python') 
-                echo  " start installing dependencies"
-                // sh 'virtualenv -p python3 env'
-                //sh 'source env/bin/activate'
-                sh 'pip install -r requirements.txt'
-                sh 'python manage.py test'
-                }     
-
-      }
+    stage('test1') {
       
- 
+      withPythonEnv('/usr/bin/python3.5') {
+    // Uses the default system installation of Python
+          // Equivalent to withPythonEnv('/usr/bin/python') 
+       echo  " start installing dependencies"
+      // sh 'virtualenv -p python3 env'
+       //sh 'source env/bin/activate'
+       sh 'pip install -r requirements.txt'
+       sh 'python manage.py test'
+      }     
      }
   
       
-   stage('docker build/push') 
-
-      steps{            
-              docker.withRegistry('https://index.docker.io/v1/', 'dockerhub')            
-              def app = docker.build("nkirui2030/matatusacco:${commit_id}", '.').push()
-          
-        }
-
-      }
-
-
-   stage('DeployToProduction') {
-       
-            steps {
-                milestone(1)              
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig',
-                    configs: 'deploymanifest.yml',
-                    enableConfigSubstitution: true
-                )
-            }
-        }
-
+   stage('docker build/push') {
+     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub')
+      {
+       def app = docker.build("nkirui2030/matatusacco:${commit_id}", '.').push()
+     }
    }
+
+   stage('DeployToProduction') {        
+            
+          milestone(1)
+          kubernetesDeploy(
+              kubeconfigId: 'kubeconfig',
+              configs: 'deploymanifest.yml',
+              enableConfigSubstitution: true
+          )
+            
+        }
 
     // stage('deploy to k8s')
     // {
@@ -87,7 +66,7 @@ pipeline {
       
   //   }
  
-  
+  }
 
 
   //  catch(e) {    // mark build as failed
