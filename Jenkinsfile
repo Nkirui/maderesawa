@@ -6,7 +6,7 @@ node {
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"                      
      commit_id = readFile('.git/commit-id').trim()
-   } 
+   }      
       
     stage('test1') {
       
@@ -30,9 +30,7 @@ node {
    }
 
    stage('DeployToProduction') {
-            when {
-                branch 'master'
-            }
+        
             steps {
                 milestone(1)
                 kubernetesDeploy(
