@@ -5,7 +5,7 @@ pipeline {
         //be sure to replace "sampriyadarshi" with your own Docker Hub username
         DOCKER_IMAGE_NAME = "nkirui2030/matatusacco"
         CANARY_REPLICAS = 0
-    }
+    }        
     stages {
         stage('Build') {
             steps {
