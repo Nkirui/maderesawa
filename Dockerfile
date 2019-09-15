@@ -12,11 +12,11 @@ WORKDIR /mdata
 COPY . /mdata
 
 # # install psycopg2
-# RUN apk update \
-#     && apk add --virtual build-deps gcc python3-dev musl-dev \
-#     && apk add postgresql-dev \
-#     && pip install psycopg2 \
-#     && apk del build-deps
+RUN apk update \
+    && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add postgresql-dev \
+    && pip install psycopg2 \
+    && apk del build-deps
 
 # # install other dependencies to allow installation of Pillow
 RUN apk --update add libxml2-dev libxslt-dev libffi-dev gcc musl-dev libgcc openssl-dev curl \
