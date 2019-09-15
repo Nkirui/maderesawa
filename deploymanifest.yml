@@ -49,5 +49,40 @@ spec:
           image: nkirui2030/matatusawa:v1
           ports:
             - containerPort: 8000
-          
+      
 
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: 'nathankirui5@gmail.com'
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    http01: {}
+
+---
+
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: smaldynamics-ml-tls
+spec:
+  secretName: smaldynamics-ml
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: smaldynamics.ml
+  dnsNames:
+    - smaldynamics.ml
+    - www.smaldynamics.ml
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - smaldynamics.ml
+          - www.smaldynamics.ml

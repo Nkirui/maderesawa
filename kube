@@ -11,10 +11,14 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-
+                    withPythonEnv('/usr/bin/python3.5') {
+                                echo  " start installing dependencies"
+                                sh 'pip install -r requirements.txt'
+                                sh 'python manage.py test'
                 
             
             }
+          }
         }
         stage('Build Docker Image') {
             when {
@@ -74,3 +78,14 @@ pipeline {
         //}
    // }
 }
+
+
+
+
+kops create cluster 
+--name smaldynamics.ml 
+--master-zones eu-west-1a,eu-west-1b,eu-west-1c 
+--zones eu-west-1a,eu-west-1b,eu-west-1c 
+--state s3://kops-bucket-nat
+--node-count 3 
+--yes 
